@@ -68,7 +68,7 @@ export default async function PostPage({ params }: PostPageProps) {
         return <p key={index} className="mb-6 text-lg leading-relaxed text-muted-foreground">{children}</p>;
       case "heading":
         const level = node.attrs?.level || 1;
-        const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
+        const HeadingTag = `h${level}` as any;
         const sizeClasses = {
           1: "text-4xl mt-12 mb-6",
           2: "text-3xl mt-10 mb-5",
