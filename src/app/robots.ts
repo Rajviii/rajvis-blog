@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/admin/",
     },
-    sitemap: "https://rajvis-blog.vercel.app/sitemap.xml",
+    sitemap: "https://rajvisblog.vercel.app/sitemap.xml",
   };
 }
