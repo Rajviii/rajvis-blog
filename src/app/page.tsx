@@ -20,15 +20,25 @@ export default async function Home() {
   const featuredPost = posts[0];
   const otherPosts = posts.slice(1);
 
+  // Helper to extract the first image from TipTap content if no featured image exists
+  const getCoverImage = (post: any) => {
+    if (post.featuredImage) return post.featuredImage;
+    if (post.content && typeof post.content === 'object' && post.content.type === 'doc' && Array.isArray(post.content.content)) {
+      const imgBlock = post.content.content.find((b: any) => b.type === 'image' && b.attrs?.src);
+      if (imgBlock) return imgBlock.attrs.src;
+    }
+    return null;
+  };
+
   return (
     <div className="container mx-auto px-4 py-12">
       {/* Hero Section */}
       {featuredPost ? (
         <section className="mb-20">
           <Link href={`/blog/${featuredPost.slug}`} className="group relative block aspect-video overflow-hidden rounded-3xl glass shadow-2xl">
-            {featuredPost.featuredImage ? (
+            {getCoverImage(featuredPost) ? (
               <Image
-                src={featuredPost.featuredImage}
+                src={getCoverImage(featuredPost)}
                 alt={featuredPost.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -92,9 +102,9 @@ export default async function Home() {
           {otherPosts.map((post) => (
             <article key={post.id} className="group relative flex flex-col glass rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
               <Link href={`/blog/${post.slug}`} className="block relative aspect-video overflow-hidden">
-                {post.featuredImage ? (
+                {getCoverImage(post) ? (
                   <Image
-                    src={post.featuredImage}
+                    src={getCoverImage(post)}
                     alt={post.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"

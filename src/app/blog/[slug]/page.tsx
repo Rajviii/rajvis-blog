@@ -45,23 +45,70 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
-  // Simple renderer for TipTap JSON (placeholder logic)
-  const renderContent = (content: any) => {
-    // In a real app, use a dedicated renderer like @tiptap/extension-html
-    // For now, we'll just show the text from the JSON
-    if (content?.type === "doc") {
-      return content.content.map((block: any, i: number) => {
-        if (block.type === "paragraph") {
-          return (
-            <p key={i} className="mb-4 text-lg leading-relaxed text-muted-foreground">
-              {block.content?.map((text: any) => text.text).join("")}
-            </p>
-          );
-        }
-        return null;
-      });
+  const renderNode = (node: any, index?: number): React.ReactNode => {
+    if (node.type === "text") {
+      let text = <>{node.text}</>;
+      if (node.marks) {
+        node.marks.forEach((mark: any) => {
+          if (mark.type === "bold") text = <strong key="bold">{text}</strong>;
+          if (mark.type === "italic") text = <em key="italic">{text}</em>;
+          if (mark.type === "underline") text = <u key="underline">{text}</u>;
+          if (mark.type === "strike") text = <s key="strike">{text}</s>;
+          if (mark.type === "code") text = <code key="code" className="bg-muted px-1 py-0.5 rounded text-sm">{text}</code>;
+          if (mark.type === "link") text = <a key="link" href={mark.attrs?.href} className="text-primary underline underline-offset-4">{text}</a>;
+        });
+      }
+      return <span key={index}>{text}</span>;
     }
-    return <p>No content available.</p>;
+
+    const children = node.content ? node.content.map((child: any, i: number) => renderNode(child, i)) : null;
+
+    switch (node.type) {
+      case "paragraph":
+        return <p key={index} className="mb-6 text-lg leading-relaxed text-muted-foreground">{children}</p>;
+      case "heading":
+        const level = node.attrs?.level || 1;
+        const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
+        const sizeClasses = {
+          1: "text-4xl mt-12 mb-6",
+          2: "text-3xl mt-10 mb-5",
+          3: "text-2xl mt-8 mb-4",
+          4: "text-xl mt-6 mb-3",
+          5: "text-lg mt-4 mb-2",
+          6: "text-base mt-4 mb-2",
+        };
+        const sizeClass = sizeClasses[level as keyof typeof sizeClasses] || "text-2xl mt-8 mb-4";
+        return <HeadingTag key={index} className={`font-bold font-heading text-foreground ${sizeClass}`}>{children}</HeadingTag>;
+      case "bulletList":
+        return <ul key={index} className="list-disc pl-6 mb-6 text-lg text-muted-foreground space-y-2">{children}</ul>;
+      case "orderedList":
+        return <ol key={index} className="list-decimal pl-6 mb-6 text-lg text-muted-foreground space-y-2">{children}</ol>;
+      case "listItem":
+        return <li key={index} className="pl-2">{children}</li>;
+      case "image":
+        return (
+          <figure key={index} className="my-8 rounded-xl overflow-hidden glass shadow-lg">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={node.attrs?.src} alt={node.attrs?.alt || "Article image"} className="w-full h-auto object-cover" />
+          </figure>
+        );
+      case "blockquote":
+        return <blockquote key={index} className="border-l-4 border-primary pl-6 italic my-8 text-xl text-muted-foreground">{children}</blockquote>;
+      case "codeBlock":
+        return <pre key={index} className="bg-muted p-6 rounded-xl my-8 overflow-x-auto text-sm"><code>{children}</code></pre>;
+      case "horizontalRule":
+        return <hr key={index} className="my-12 border-border" />;
+      case "doc":
+        return <>{children}</>;
+      default:
+        // Render unknown blocks as divs instead of ignoring them
+        return <div key={index}>{children}</div>;
+    }
+  };
+
+  const renderContent = (content: any) => {
+    if (!content) return <p>No content available.</p>;
+    return renderNode(content, 0);
   };
 
   return (

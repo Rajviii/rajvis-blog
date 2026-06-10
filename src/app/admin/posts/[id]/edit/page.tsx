@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Editor from "@/components/editor/Editor";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
-export default function AdminPostPage() {
+export default function EditPostPage() {
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [excerpt, setExcerpt] = useState("");
@@ -13,7 +13,11 @@ export default function AdminPostPage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [content, setContent] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
   const router = useRouter();
+  const params = useParams();
+  const id = params.id as string;
 
   useEffect(() => {
     fetch("/api/categories")
@@ -24,6 +28,32 @@ export default function AdminPostPage() {
       .catch(console.error);
   }, []);
 
+  useEffect(() => {
+    if (!id) return;
+    
+    const fetchPost = async () => {
+      try {
+        const res = await fetch(`/api/posts/${id}`);
+        if (!res.ok) throw new Error("Failed to fetch post");
+        const data = await res.json();
+        
+        setTitle(data.title);
+        setSlug(data.slug);
+        setExcerpt(data.excerpt || "");
+        setFeaturedImage(data.featuredImage || "");
+        setCategoryId(data.categoryId || "");
+        setContent(data.content);
+      } catch (error) {
+        console.error(error);
+        alert("Failed to load post data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchPost();
+  }, [id]);
+
   const handleSave = async (published: boolean) => {
     if (!title) {
       alert("Title is required");
@@ -33,8 +63,8 @@ export default function AdminPostPage() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/posts", {
-        method: "POST",
+      const response = await fetch(`/api/posts/${id}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
@@ -43,15 +73,15 @@ export default function AdminPostPage() {
           featuredImage,
           content,
           categoryId: categoryId || undefined,
-          authorId: "cm0123456789", // This should be dynamic, but for now we use a placeholder or the seeded ID
           published,
         }),
       });
 
       if (response.ok) {
         router.push("/admin");
+        router.refresh();
       } else {
-        alert("Failed to save post");
+        alert("Failed to update post");
       }
     } catch (error) {
       console.error(error);
@@ -61,9 +91,13 @@ export default function AdminPostPage() {
     }
   };
 
+  if (isLoading) {
+    return <div className="container mx-auto px-4 py-20 max-w-5xl text-center">Loading post...</div>;
+  }
+
   return (
     <div className="container mx-auto px-4 py-20 max-w-5xl">
-      <h1 className="text-4xl font-bold font-heading mb-12 text-gradient">Create New Post</h1>
+      <h1 className="text-4xl font-bold font-heading mb-12 text-gradient">Edit Post</h1>
       
       <form onSubmit={(e) => { e.preventDefault(); handleSave(true); }} className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -179,7 +213,7 @@ export default function AdminPostPage() {
             disabled={isSubmitting}
             className="bg-primary hover:bg-primary/80 text-white font-bold py-4 px-12 rounded-full transition-all shadow-lg shadow-primary/20 disabled:opacity-50"
           >
-            {isSubmitting ? "Saving..." : "Publish Post"}
+            {isSubmitting ? "Updating..." : "Update Post"}
           </button>
         </div>
       </form>

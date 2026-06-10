@@ -15,6 +15,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rajvis-blog.vercel.app"),
   title: {
     default: "Rajvi's Blog | Insightful Stories & Daily Updates",
     template: "%s | Rajvi's Blog",

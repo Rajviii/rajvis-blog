@@ -33,18 +33,27 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { title, slug, content, authorId, categoryId, excerpt, featuredImage } = body;
+    const { title, slug, content, authorId, categoryId, excerpt, featuredImage, published } = body;
 
-    // Fallback to first user if no authorId provided
-    let finalAuthorId = authorId;
-    if (!finalAuthorId) {
-      const user = await prisma.user.findFirst();
-      if (user) {
-        finalAuthorId = user.id;
-      } else {
-        return NextResponse.json({ error: "No author found" }, { status: 400 });
-      }
+    // Ensure the author exists, or create a default one
+    let user = authorId ? await prisma.user.findUnique({ where: { id: authorId } }) : null;
+    
+    if (!user) {
+      user = await prisma.user.findFirst();
     }
+
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          id: authorId || "cm0123456789",
+          name: "Admin",
+          email: "admin@example.com",
+          role: "ADMIN",
+        },
+      });
+    }
+
+    const finalAuthorId = user.id;
 
     const post = await prisma.post.create({
       data: {
@@ -55,7 +64,7 @@ export async function POST(request: Request) {
         featuredImage,
         authorId: finalAuthorId,
         categoryId,
-        published: true, // Auto-publish for now
+        published: published !== undefined ? published : true,
       },
     });
 

@@ -4,7 +4,7 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
@@ -16,7 +16,7 @@ model Post {
   id              String    @id @default(cuid())
   title           String
   slug            String    @unique
-  content         Json      // TipTap JSON content
+  content         Json // TipTap JSON content
   excerpt         String?
   published       Boolean   @default(false)
   featuredImage   String?
@@ -46,10 +46,18 @@ model Tag {
 }
 
 model User {
-  id    String @id @default(cuid())
+  id    String  @id @default(cuid())
   name  String
-  email String @unique
+  email String  @unique
   image String?
-  role  String @default("AUTHOR")
+  role  String  @default("AUTHOR")
   posts Post[]
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  filename  String
+  mimeType  String
+  data      Bytes
+  createdAt DateTime @default(now())
 }

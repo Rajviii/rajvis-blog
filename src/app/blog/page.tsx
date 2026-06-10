@@ -1,35 +1,19 @@
 import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-interface CategoryPageProps {
-  params: Promise<{ slug: string }>;
-}
-
-async function getCategoryData(slug: string) {
-  if (!slug) return null;
-  
-  const category = await prisma.category.findUnique({
-    where: { slug },
+async function getPosts() {
+  return await prisma.post.findMany({
+    where: { published: true },
     include: {
-      posts: {
-        where: { published: true },
-        include: { author: true, category: true },
-        orderBy: { createdAt: "desc" },
-      },
+      category: true,
     },
+    orderBy: { createdAt: "desc" },
   });
-  return category;
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
-  const { slug } = await params;
-  const category = await getCategoryData(slug);
-
-  if (!category) {
-    notFound();
-  }
+export default async function BlogPage() {
+  const posts = await getPosts();
 
   // Helper to extract the first image from TipTap content if no featured image exists
   const getCoverImage = (post: any) => {
@@ -42,22 +26,19 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   };
 
   return (
-    <div className="container mx-auto px-4 py-20">
-      <header className="mb-16">
-        <Link href="/categories" className="text-sm font-medium text-primary hover:underline mb-4 inline-block">
-          ← Back to all categories
-        </Link>
+    <div className="container mx-auto px-4 py-20 max-w-6xl">
+      <header className="mb-16 text-center">
         <h1 className="text-4xl font-bold font-heading mb-4 text-gradient md:text-6xl">
-          {category.name}
+          All Stories
         </h1>
-        <p className="text-muted-foreground">
-          Showing {category.posts.length} {category.posts.length === 1 ? "story" : "stories"} in {category.name}
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+          Explore all our latest insights and stories.
         </p>
       </header>
 
-      {category.posts.length > 0 ? (
+      {posts.length > 0 ? (
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {category.posts.map((post) => (
+          {posts.map((post) => (
             <article key={post.id} className="group relative flex flex-col glass rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
               <Link href={`/blog/${post.slug}`} className="block relative aspect-video overflow-hidden">
                 {getCoverImage(post) ? (
@@ -71,7 +52,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-secondary/10" />
                 )}
               </Link>
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-grow">
+                {post.category && (
+                  <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-wider text-primary">
+                    {post.category.name}
+                  </span>
+                )}
                 <h3 className="mb-3 text-xl font-bold font-heading group-hover:text-primary transition-colors">
                   <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                 </h3>
@@ -91,7 +77,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       ) : (
         <div className="text-center py-20 glass rounded-3xl">
           <h2 className="text-2xl font-bold mb-4">No stories found</h2>
-          <p className="text-muted-foreground">Check back later for new content in this category.</p>
+          <p className="text-muted-foreground">Check back later for new content.</p>
         </div>
       )}
     </div>
