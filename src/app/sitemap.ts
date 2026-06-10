@@ -8,7 +8,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   const postEntries = posts.map((post) => ({
-    url: `https://rajvis-blog.vercel.app/blog/${post.slug}`,
+    url: `https://rajvisblog.vercel.app/blog/${post.slug}`,
     lastModified: post.updatedAt,
     changeFrequency: "daily" as const,
     priority: 0.7,
@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: "https://rajvis-blog.vercel.app",
+      url: "https://rajvisblog.vercel.app",
       lastModified: new Date(),
       changeFrequency: "always" as const,
       priority: 1,
