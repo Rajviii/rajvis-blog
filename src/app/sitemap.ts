@@ -18,7 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: "https://rajvisblog.vercel.app",
       lastModified: new Date(),
-      changeFrequency: "always" as const,
+      changeFrequency: "daily" as const,
       priority: 1,
     },
     ...postEntries,
