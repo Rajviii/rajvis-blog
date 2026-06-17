@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { DeleteButton } from "./DeleteButton";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   const posts = await prisma.post.findMany({
     orderBy: { createdAt: "desc" },
