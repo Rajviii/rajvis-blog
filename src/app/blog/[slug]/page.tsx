@@ -100,6 +100,24 @@ export default async function PostPage({ params }: PostPageProps) {
         return <pre key={index} className="bg-muted p-6 rounded-xl my-8 overflow-x-auto text-sm"><code>{children}</code></pre>;
       case "horizontalRule":
         return <hr key={index} className="my-12 border-border" />;
+      case "table":
+        return (
+          <div key={index} className="my-8 overflow-x-auto rounded-xl border border-border bg-background/30 backdrop-blur-md">
+            <table className="w-full text-left border-collapse border-spacing-0">
+              <tbody>{children}</tbody>
+            </table>
+          </div>
+        );
+      case "tableRow":
+        return <tr key={index} className="border-b border-border last:border-0 hover:bg-muted/5 transition-colors">{children}</tr>;
+      case "tableHeader":
+        return (
+          <th key={index} className="p-4 font-bold border-b border-border bg-muted/20 text-foreground text-sm uppercase tracking-wider">
+            {children}
+          </th>
+        );
+      case "tableCell":
+        return <td key={index} className="p-4 border-b border-border/50 text-muted-foreground text-sm align-top">{children}</td>;
       case "doc":
         return <>{children}</>;
       default:

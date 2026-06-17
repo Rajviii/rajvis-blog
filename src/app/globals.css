@@ -101,3 +101,52 @@
   --tw-prose-th-borders: var(--border);
   --tw-prose-td-borders: var(--border);
 }
+
+/* TipTap Editor Table Styles */
+.ProseMirror table {
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.ProseMirror td,
+.ProseMirror th {
+  border: 1px solid var(--border);
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 0.75rem 1rem;
+  position: relative;
+  vertical-align: top;
+}
+
+.ProseMirror th {
+  background-color: var(--muted);
+  font-weight: bold;
+  text-align: left;
+}
+
+.ProseMirror .selectedCell:after {
+  background: rgba(200, 200, 255, 0.4);
+  content: "";
+  left: 0; right: 0; top: 0; bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.ProseMirror .column-resize-handle {
+  background-color: var(--primary);
+  bottom: -2px;
+  position: absolute;
+  right: -2px;
+  top: 0;
+  width: 4px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.ProseMirror .tableWrapper {
+  overflow-x: auto;
+}
