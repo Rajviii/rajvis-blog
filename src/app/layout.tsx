@@ -15,7 +15,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rajvis-blog.vercel.app"),
+  metadataBase: new URL("https://rajvisblog.vercel.app"),
   title: {
     default: "Rajvi's Blog | Insightful Stories & Daily Updates",
     template: "%s | Rajvi's Blog",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://rajvis-blog.vercel.app",
+    url: "https://rajvisblog.vercel.app",
     siteName: "Rajvi's Blog",
     images: [
       {
@@ -86,7 +86,7 @@ export default function RootLayout({
                     <ul className="space-y-2 text-sm text-muted-foreground">
                       <li><a href="/privacy" className="hover:text-foreground">Privacy Policy</a></li>
                       <li><a href="/terms" className="hover:text-foreground">Terms of Service</a></li>
-                      <li><a href="/sitemap" className="hover:text-foreground">Sitemap</a></li>
+                      <li><a href="/sitemap.xml" className="hover:text-foreground">Sitemap</a></li>
                     </ul>
                   </div>
                   <div>
