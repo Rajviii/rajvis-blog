@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Menu, X, Sun, Moon } from "lucide-react";
+import { WebsiteHeaderLogo } from "@/components/layout/brand-logos";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -26,8 +27,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border glass backdrop-blur-lg">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="text-2xl font-bold font-heading text-gradient">
-          Rajvi's Blog
+        <Link href="/" className="hover:opacity-90 transition-opacity">
+          <WebsiteHeaderLogo size={32} />
         </Link>
 
         {/* Desktop Navigation */}

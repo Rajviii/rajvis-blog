@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
+import { WebsiteHeaderLogo } from "@/components/layout/brand-logos";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -76,7 +77,9 @@ export default function RootLayout({
               <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                   <div className="col-span-2">
-                    <h2 className="text-xl font-bold font-heading mb-4 text-gradient">Rajvi's Blog</h2>
+                    <div className="mb-4">
+                      <WebsiteHeaderLogo size={36} />
+                    </div>
                     <p className="text-muted-foreground max-w-sm">
                       Sharing daily insights and evergreen content to help you grow and stay informed.
                     </p>
@@ -92,9 +95,10 @@ export default function RootLayout({
                   <div>
                     <h3 className="font-bold mb-4">Connect</h3>
                     <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li><a href="https://twitter.com" className="hover:text-foreground">Twitter</a></li>
-                      <li><a href="https://github.com" className="hover:text-foreground">GitHub</a></li>
-                      <li><a href="mailto:contact@rajvi.com" className="hover:text-foreground">Email</a></li>
+                      <li><a href="https://x.com/Rajvi12M" className="hover:text-foreground">Twitter</a></li>
+                      <li><a href="https://github.com/Rajviii" className="hover:text-foreground">GitHub</a></li>
+                      <li><a href="https://www.linkedin.com/in/rajvi-prajapati-49a598220/" className="hover:text-foreground">LinkedIn</a></li>
+                      <li><a href="mailto:rajvijprajapatirjp24@gmail.com" className="hover:text-foreground">Email</a></li>
                     </ul>
                   </div>
                 </div>

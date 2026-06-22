@@ -1,0 +1,56 @@
+<svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="500" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#111111" />
+      <stop offset="50%" stop-color="#1e1e1e" />
+      <stop offset="100%" stop-color="#0d0d0d" />
+    </linearGradient>
+    
+    <!-- Mask to form the squircle (rounded app icon shape) -->
+    <clipPath id="squircleClip">
+      <rect x="0" y="0" width="500" height="500" rx="110" />
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#squircleClip)">
+    <!-- Squircle base background -->
+    <rect width="500" height="500" fill="url(#bgGrad)" />
+    
+    <!-- Subtle technical grid layer -->
+    <g opacity="0.05">
+      <path d="M 0 50 H 500 M 0 100 H 500 M 0 150 H 500 M 0 200 H 500 M 0 250 H 500 M 0 300 H 500 M 0 350 H 500 M 0 400 H 500 M 0 450 H 500" stroke="#ffffff" stroke-width="1" />
+      <path d="M 50 0 V 500 M 100 0 V 500 M 150 0 V 500 M 200 0 V 500 M 250 0 V 500 M 300 0 V 500 M 350 0 V 500 M 400 0 V 500 M 450 0 V 500" stroke="#ffffff" stroke-width="1" />
+    </g>
+    
+    <!-- Outer delicate border glow -->
+    <rect x="0.5" y="0.5" width="499" height="499" rx="109.5" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+
+    <!-- Centered Simplified Logo in White -->
+    <g transform="translate(42, 42) scale(0.83)">
+      <g stroke="#ffffff" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <!-- Left J-loop -->
+        <path d="M 215 140 C 130 160 110 260 125 360 C 138 435 180 445 205 425 C 240 395 250 300 245 240 C 242 190 230 140 215 140 Z" />
+
+        <!-- Main stem with top hook -->
+        <path d="M 120 150 C 145 140 180 115 205 75 C 208 70 208 70 210 90 C 215 140 230 260 225 370" />
+
+        <!-- R-Bow -->
+        <path d="M 210 145 C 260 120 315 130 315 190 C 315 245 265 255 220 255" />
+
+        <!-- R-Leg (bird perch) -->
+        <path d="M 223 255 C 255 255 285 315 315 365 C 322 375 330 375 342 355 C 352 335 362 315 368 318" />
+
+        <!-- Crossbar (A) -->
+        <path d="M 224 315 H 285" stroke-width="14" />
+
+        <!-- Bird -->
+        <path
+          d="M 368 318 C 365 310 360 295 365 285 C 370 275 385 272 392 280 C 396 285 410 300 422 308 C 405 308 390 302 380 308 Z"
+          fill="#ffffff"
+          stroke="none"
+        />
+      </g>
+    </g>
+  </g>
+</svg>

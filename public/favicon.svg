@@ -1,0 +1,27 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#09090b" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Left loop -->
+    <path d="M 45 30 C 25 35 20 60 25 80 C 30 95 40 95 45 90 C 52 80 55 60 54 48 C 53 38 50 30 45 30 Z" />
+
+    <!-- Main stem -->
+    <path d="M 25 32 C 32 30 40 22 45 15 C 47 25 50 55 48 82" />
+
+    <!-- R-Bow -->
+    <path d="M 46 32 C 60 25 72 27 72 45 C 72 60 60 62 48 62" />
+
+    <!-- R-Leg -->
+    <path d="M 48 62 C 56 62 64 78 70 80 C 74 81 77 77 78 72" />
+
+    <!-- Crossbar (A) -->
+    <path d="M 47 69 H 61" stroke-width="6" />
+
+    <!-- Bird silhouette sitting on the leg tip -->
+    <path
+      d="M 78 72 C 76 70 74 65 75 60 C 76 56 80 54 83 58 C 85 60 91 68 97 72 C 90 72 84 70 78 72 Z"
+      fill="#09090b"
+      stroke="none"
+    />
+    <!-- Bird Eye -->
+    <circle cx="77.5" cy="59" r="0.8" fill="#FFFFFF" stroke="none" />
+  </g>
+</svg>
