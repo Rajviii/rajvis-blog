@@ -37,53 +37,71 @@ export default async function Home() {
       {/* Hero Section */}
       {featuredPost ? (
         <section className="mb-20">
-          <Link href={`/blog/${featuredPost.slug}`} className="group relative block aspect-video overflow-hidden rounded-3xl glass shadow-2xl">
-            {getCoverImage(featuredPost) ? (
-              <Image
-                src={getCoverImage(featuredPost)}
-                alt={featuredPost.title}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            ) : (
-              <div className="absolute inset-0 bg-linear-to-br from-primary/20 to-secondary/20" />
-            )}
-            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
-            <div className="absolute bottom-0 p-8 md:p-12">
-              {featuredPost.category && (
-                <span className="mb-4 inline-block rounded-full bg-primary/20 px-3 py-1 text-xs font-semibold text-primary backdrop-blur-md border border-primary/20">
-                  {featuredPost.category.name}
-                </span>
-              )}
-              <h1 className="mb-4 text-4xl font-bold font-heading md:text-6xl group-hover:text-primary transition-colors text-white">
-                {featuredPost.title}
-              </h1>
-              <p className="mb-6 max-w-2xl text-lg text-white/80 line-clamp-2">
-                {featuredPost.excerpt}
-              </p>
-              <div className="flex items-center space-x-4">
-                {featuredPost.author.image && (
-                  <Image
-                    src={featuredPost.author.image}
-                    alt={featuredPost.author.name}
-                    width={40}
-                    height={40}
-                    className="rounded-full border border-white/20"
-                  />
+          <div className="group overflow-hidden rounded-3xl glass border border-border/50 shadow-2xl transition-all duration-300 hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
+              {/* Image Column */}
+              <div className="lg:col-span-7 relative w-full aspect-video lg:aspect-auto lg:min-h-[440px] overflow-hidden bg-black">
+                <Link href={`/blog/${featuredPost.slug}`} className="block w-full h-full relative bg-black">
+                  {getCoverImage(featuredPost) ? (
+                    <Image
+                      src={getCoverImage(featuredPost)}
+                      alt={featuredPost.title}
+                      fill
+                      priority
+                      className="object-contain bg-black transition-transform duration-500 group-hover:scale-102"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-linear-to-br from-primary/20 to-secondary/20" />
+                  )}
+                  {/* Hover overlay overlay */}
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300" />
+                </Link>
+              </div>
+
+              {/* Content Column */}
+              <div className="lg:col-span-5 flex flex-col justify-center p-8 md:p-10 lg:p-12">
+                {featuredPost.category && (
+                  <div className="mb-4">
+                    <span className="inline-block rounded-full bg-primary/10 dark:bg-primary/20 px-3 py-1 text-xs font-semibold text-primary border border-primary/20 backdrop-blur-md">
+                      Featured • {featuredPost.category.name}
+                    </span>
+                  </div>
                 )}
-                <div>
-                  <p className="text-sm font-medium text-white">{featuredPost.author.name}</p>
-                  <p className="text-xs text-white/60">
-                    {new Date(featuredPost.createdAt).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </p>
+                
+                <h1 className="mb-4 text-2xl font-bold font-heading md:text-3.5xl group-hover:text-primary transition-colors text-foreground line-clamp-3 leading-tight">
+                  <Link href={`/blog/${featuredPost.slug}`}>
+                    {featuredPost.title}
+                  </Link>
+                </h1>
+                
+                <p className="mb-6 text-sm md:text-base text-muted-foreground line-clamp-3 leading-relaxed">
+                  {featuredPost.excerpt}
+                </p>
+                
+                <div className="mt-auto pt-6 border-t border-border/50 flex items-center space-x-4">
+                  {featuredPost.author.image && (
+                    <Image
+                      src={featuredPost.author.image}
+                      alt={featuredPost.author.name}
+                      width={40}
+                      height={40}
+                      className="rounded-full border border-border/50"
+                    />
+                  )}
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{featuredPost.author.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {new Date(featuredPost.createdAt).toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </Link>
+          </div>
         </section>
       ) : (
         <section className="mb-20 py-20 text-center glass rounded-3xl">
