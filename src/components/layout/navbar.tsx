@@ -20,6 +20,7 @@ export function Navbar() {
 
   const navLinks = [
     { href: "/categories", label: "Categories" },
+    { href: "/fun-break", label: "Fun Break" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
   ];

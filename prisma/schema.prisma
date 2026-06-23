@@ -61,3 +61,16 @@ model Media {
   data      Bytes
   createdAt DateTime @default(now())
 }
+
+model FunBreakSite {
+  id            String   @id @default(cuid())
+  title         String
+  image         String?
+  description   String
+  discoveredBy  String
+  url           String
+  category      String
+  displayOnWeb  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
