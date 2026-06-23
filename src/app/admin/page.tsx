@@ -21,6 +21,12 @@ export default async function AdminDashboard() {
             Manage Categories
           </Link>
           <Link 
+            href="/admin/messages" 
+            className="bg-muted hover:bg-muted/80 text-foreground font-bold py-3 px-6 rounded-full transition-all"
+          >
+            Manage Messages
+          </Link>
+          <Link 
             href="/admin/fun-break" 
             className="bg-muted hover:bg-muted/80 text-foreground font-bold py-3 px-6 rounded-full transition-all"
           >
