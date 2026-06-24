@@ -43,9 +43,7 @@ export default async function CategoriesPage() {
             <p className="text-muted-foreground">
               {category._count.posts} {category._count.posts === 1 ? "Story" : "Stories"}
             </p>
-            <div className="mt-6 flex items-center text-sm font-medium text-primary">
-              View Category →
-            </div>
+            <Link href={`/categories/${category.slug}`} className="mt-6 flex items-center text-sm font-medium text-primary cursor-pointer hover:underline underline-offset-4">View Category →</Link>
           </Link>
         ))}
       </div>

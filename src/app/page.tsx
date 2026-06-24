@@ -67,17 +67,17 @@ export default async function Home() {
                     </span>
                   </div>
                 )}
-                
+
                 <h1 className="mb-4 text-2xl font-bold font-heading md:text-3.5xl group-hover:text-primary transition-colors text-foreground line-clamp-3 leading-tight">
                   <Link href={`/blog/${featuredPost.slug}`}>
                     {featuredPost.title}
                   </Link>
                 </h1>
-                
+
                 <p className="mb-6 text-sm md:text-base text-muted-foreground line-clamp-3 leading-relaxed">
                   {featuredPost.excerpt}
                 </p>
-                
+
                 <div className="mt-auto pt-6 border-t border-border/50 flex items-center space-x-4">
                   {featuredPost.author.image && (
                     <Image
@@ -149,7 +149,7 @@ export default async function Home() {
                   <span className="text-xs text-muted-foreground">
                     {new Date(post.createdAt).toLocaleDateString()}
                   </span>
-                  <span className="text-xs font-medium text-primary">Read More →</span>
+                  <Link href={`/blog/${post.slug}`} className="text-xs font-medium text-primary cursor-pointer hover:underline underline-offset-4">Read More →</Link>
                 </div>
               </div>
             </article>

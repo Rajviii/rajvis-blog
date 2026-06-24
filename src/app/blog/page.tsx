@@ -70,7 +70,7 @@ export default async function BlogPage() {
                   <span className="text-xs text-muted-foreground">
                     {new Date(post.createdAt).toLocaleDateString()}
                   </span>
-                  <span className="text-xs font-medium text-primary">Read More →</span>
+                  <Link href={`/blog/${post.slug}`} className="text-xs font-medium text-primary cursor-pointer hover:underline underline-offset-4">Read More →</Link>
                 </div>
               </div>
             </article>
