@@ -107,23 +107,23 @@ export default function FunBreakClient({ initialWebsites = [] }: { initialWebsit
     localStorage.removeItem("funbreak_recent");
   };
 
-  // Custom Mesh Gradients based on Category
+  // Custom Mesh Gradients based on Category (subtle gradients to match UI theme)
   const getGradientForCategory = (category: string) => {
     switch (category.toLowerCase()) {
       case "creativity":
-        return "from-violet-500 to-pink-500";
+        return "from-violet-500/10 via-pink-500/5 to-transparent dark:from-violet-500/15 dark:via-pink-500/5";
       case "music":
-        return "from-emerald-500 to-sky-600";
+        return "from-emerald-500/10 via-sky-600/5 to-transparent dark:from-emerald-500/15 dark:via-sky-600/5";
       case "learning":
-        return "from-blue-500 to-cyan-500";
+        return "from-blue-500/10 via-cyan-500/5 to-transparent dark:from-blue-500/15 dark:via-cyan-500/5";
       case "fun":
-        return "from-red-500 to-amber-600";
+        return "from-red-500/10 via-amber-600/5 to-transparent dark:from-red-500/15 dark:via-amber-600/5";
       case "explore":
-        return "from-teal-500 to-emerald-600";
+        return "from-teal-500/10 via-emerald-600/5 to-transparent dark:from-teal-500/15 dark:via-emerald-600/5";
       case "random":
-        return "from-slate-600 to-zinc-700";
+        return "from-slate-500/10 via-zinc-500/5 to-transparent dark:from-slate-500/15 dark:via-zinc-500/5";
       default:
-        return "from-indigo-500 to-purple-600";
+        return "from-indigo-500/10 via-purple-600/5 to-transparent dark:from-indigo-500/15 dark:via-purple-600/5";
     }
   };
 
@@ -444,7 +444,11 @@ export default function FunBreakClient({ initialWebsites = [] }: { initialWebsit
                       onClick={() => recordVisit(site.id)}
                       className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-card border border-border text-xs text-muted-foreground hover:border-muted-foreground/30 hover:text-foreground transition-all hover:scale-102"
                     >
-                      <span>{getIconForCategory(site.category)}</span>
+                      {site.image ? (
+                        <img src={site.image} alt="" className="w-3.5 h-3.5 object-contain rounded-xs" />
+                      ) : (
+                        <span>{getIconForCategory(site.category)}</span>
+                      )}
                       <span>{site.title}</span>
                       <ExternalLink className="w-3 h-3 text-muted-foreground" />
                     </a>
@@ -483,25 +487,42 @@ export default function FunBreakClient({ initialWebsites = [] }: { initialWebsit
                     key={site.id}
                     className="group relative flex flex-col glass rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-primary/5 transition-all duration-300 hover:-translate-y-1"
                   >
-                    {/* Visual Card Image (Gradient Mockup) */}
-                    <div className={`relative aspect-video w-full bg-gradient-to-br ${getGradientForCategory(site.category)} flex items-center justify-center p-6 text-white overflow-hidden`}>
-                      {/* Browser Mockup Top bar */}
-                      <div className="absolute top-2.5 left-3 flex space-x-1.5">
-                        <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                    {/* Visual Card Image (Subtle Glass Gradient Mockup) */}
+                    <div className={`relative h-28 w-full bg-gradient-to-br ${getGradientForCategory(site.category)} bg-zinc-950/20 dark:bg-zinc-950/40 flex items-center justify-center p-6 text-white overflow-hidden border-b border-border/50`}>
+                      {/* Browser Mockup Top bar - interactive light-up dots */}
+                      <div className="absolute top-3 left-3 flex space-x-1.5 z-10">
+                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-400/30 dark:bg-zinc-600/40 group-hover:bg-red-500/70 transition-all duration-300" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-400/30 dark:bg-zinc-600/40 group-hover:bg-amber-500/70 transition-all duration-300" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-400/30 dark:bg-zinc-600/40 group-hover:bg-emerald-500/70 transition-all duration-300" />
                       </div>
-                      <span className="text-5xl filter drop-shadow-md select-none transform transition-transform duration-500 group-hover:scale-110">
-                        {getIconForCategory(site.category)}
-                      </span>
-                      {/* Grid background texture overlay */}
-                      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:14px_24px]" />
+
+                      {/* Interactive Sparkles that fade in and float on hover */}
+                      <Sparkles className="absolute top-4 left-10 w-3.5 h-3.5 text-primary/40 opacity-0 group-hover:opacity-80 group-hover:scale-110 group-hover:-translate-y-1 group-hover:rotate-12 transition-all duration-700 ease-out pointer-events-none" />
+                      <Sparkles className="absolute bottom-4 right-10 w-3 h-3 text-secondary/40 opacity-0 group-hover:opacity-80 group-hover:scale-110 group-hover:translate-y-1 group-hover:-rotate-12 transition-all duration-500 ease-out pointer-events-none" />
+
+                      {/* Floating Circle Badge for Category Emoji or Custom Logo */}
+                      <div className="w-12 h-12 rounded-full bg-background/60 dark:bg-zinc-900/60 border border-border/80 flex items-center justify-center shadow-sm group-hover:border-primary/30 group-hover:shadow-md transition-all duration-500 animate-float z-10 overflow-hidden">
+                        {site.image ? (
+                          <img
+                            src={site.image}
+                            alt={`${site.title} logo`}
+                            className="w-7 h-7 object-contain select-none transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6"
+                          />
+                        ) : (
+                          <span className="text-2xl filter drop-shadow-sm select-none transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+                            {getIconForCategory(site.category)}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Subtle Grid background texture overlay */}
+                      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:14px_24px] pointer-events-none" />
                     </div>
 
                     {/* Bookmark Toggle Badge */}
                     <button
                       onClick={() => toggleBookmark(site.id)}
-                      className="absolute top-3 right-3 p-2 rounded-full bg-background/70 dark:bg-background/40 backdrop-blur-md border border-border hover:bg-background text-foreground transition-colors shadow-xs"
+                      className="absolute top-3 right-3 p-2 rounded-full bg-background/70 dark:bg-background/40 backdrop-blur-md border border-border hover:bg-background text-foreground transition-colors shadow-xs z-20"
                       aria-label={isBookmarked ? "Remove from bookmarks" : "Bookmark website"}
                     >
                       <Heart className={`w-4 h-4 ${isBookmarked ? "fill-red-500 text-red-500" : "text-muted-foreground"}`} />
