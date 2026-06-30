@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { WebsiteHeaderLogo } from "@/components/layout/brand-logos";
 import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -132,6 +133,7 @@ export default function RootLayout({
             </footer>
           </div>
         </ThemeProvider>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!} />
       </body>
     </html>
   );
