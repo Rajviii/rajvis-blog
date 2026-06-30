@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { WebsiteHeaderLogo } from "@/components/layout/brand-logos";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -74,6 +75,18 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${outfit.variable} font-sans min-h-screen bg-background text-foreground transition-colors duration-300`}
       >
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`
+            (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);
+              t.async=1;
+              t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+              y=l.getElementsByTagName(r)[0];
+              y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "xf1u564vlc");
+          `}
+        </Script>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
